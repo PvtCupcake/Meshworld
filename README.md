@@ -6,12 +6,3 @@
 ___
 
 
-Member | Task
------------- | -------------
-Marie | Content from cell 2
-Isak | Content in the second column
-Marius | Moo
-Marcus | Boo
-Kristoffer | Lol
-Vetle | YO
-Nikolas | King
