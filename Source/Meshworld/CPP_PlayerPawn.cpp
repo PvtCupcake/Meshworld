@@ -55,3 +55,4 @@ void ACPP_PlayerPawn::MoveRight(float AxisValue)
 {
 	Velocity.Y = FMath::Clamp(AxisValue, -1.0f, 1.0f) * SpeedScale;
 }
+
