@@ -4,34 +4,32 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "CPP_EnemyChaser.generated.h"
+#include "CPP_EnemyTurret.generated.h"
 
 UCLASS()
-class MESHWORLD_API ACPP_EnemyChaser : public APawn
+class MESHWORLD_API ACPP_EnemyTurret : public APawn
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this pawn's properties
-	ACPP_EnemyChaser();
+	ACPP_EnemyTurret();
 
+	FVector MoveDirection = FVector(0.f, 0.f, 0.f);
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	FVector MoveDirection = FVector(1.f, 0.f, 0.f);
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
 private:
 
 	UPROPERTY(EditAnywhere)
-		float Speed = 200.f;
-
-	UPROPERTY(EditAnywhere)
-		UShapeComponent* RootBox = nullptr;
+		UShapeComponent* RootSphere = nullptr;
 };
