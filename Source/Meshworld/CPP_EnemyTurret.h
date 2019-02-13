@@ -20,6 +20,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UPROPERTY(EditAnywhere, Category = "Spawning") //Sets the spawning tab in the blueprint of player, where you can choose what to shoot       
+		TSubclassOf<class ACPP_EvilProjectile> BulletBlueprint;
 
 public:	
 	// Called every frame
@@ -27,6 +29,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void Shooting();
 
 private:
 

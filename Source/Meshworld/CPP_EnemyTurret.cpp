@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "CPP_EnemyTurret.h"
+#include "CPP_EvilProjectile.h"
 #include "Components/SphereComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
@@ -33,12 +34,27 @@ void ACPP_EnemyTurret::Tick(float DeltaTime)
 	MoveDirection.Normalize();
 	SetActorRotation(MoveDirection.Rotation());
 
+	Shooting();
+
+	Time
+
 }
 
 // Called to bind functionality to input
 void ACPP_EnemyTurret::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+}
+
+void ACPP_EnemyTurret::Shooting()
+{
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		FVector Location = GetActorLocation();
+		World->SpawnActor<ACPP_EvilProjectile>(BulletBlueprint, Location, FRotator::ZeroRotator);
+	}
 
 }
 
