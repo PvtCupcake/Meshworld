@@ -2,6 +2,10 @@
 
 #include "CPP_PlayerPawn.h"
 #include "Components/InputComponent.h"
+#include "Components/Decalcomponent.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Materials/Material.h"
+#include "Engine/World.h"
 //#include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -11,16 +15,23 @@ ACPP_PlayerPawn::ACPP_PlayerPawn()
 	PrimaryActorTick.bCanEverTick = true;
 
 	//Create a crosshair in the world
-	//CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
-	//CursorToWorld->SetupAttachment(RootComponent);
-
+	CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
+	CursorToWorld->SetupAttachment(RootComponent);
+	static ConstructorHelpers::FObjectFinder<UMaterial> DecalMaterialAsset(TEXT("Material'/Game/Materials/M_Cursor_Decal.M_Cursor_Decal'"));
+	if (DecalMaterialAsset.Succeeded())
+	{
+		CursorToWorld->SetDecalMaterial(DecalMaterialAsset.Object);
+	}
+	CursorToWorld->DecalSize = FVector(16.0f, 32.0f, 32.0f);
+	CursorToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
 }
 
 // Called when the game starts or when spawned
 void ACPP_PlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	//GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 }
 
 // Called every frame
