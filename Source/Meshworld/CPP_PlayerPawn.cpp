@@ -3,6 +3,7 @@
 #include "CPP_PlayerPawn.h"
 #include "Components/InputComponent.h"
 #include "Components/Decalcomponent.h"
+#include "Components/BoxComponent.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
@@ -14,16 +15,19 @@ ACPP_PlayerPawn::ACPP_PlayerPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	//Create a rootcomponent we can attach things to
+	RootComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("RootComponent"));
+
 	//Create a crosshair in the world
-	/*CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
+	CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
 	CursorToWorld->SetupAttachment(RootComponent);
-	static ConstructorHelpers::FObjectFinder<UMaterial> DecalMaterialAsset(TEXT("Material'/Game/Materials/M_Cursor_Decal.M_Cursor_Decal'"));
+	static ConstructorHelpers::FObjectFinder<UMaterial> DecalMaterialAsset(TEXT("Material'/Engine/VREditor/LaserPointer/LaserPointerMaterial.LaserPointerMaterial'"));
 	if (DecalMaterialAsset.Succeeded())
 	{
 		CursorToWorld->SetDecalMaterial(DecalMaterialAsset.Object);
 	}
-	CursorToWorld->DecalSize = FVector(16.0f, 32.0f, 32.0f);
-	CursorToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());*/
+	CursorToWorld->DecalSize = FVector(20.0f, 100.0f, 100.0f);
+	CursorToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
 }
 
 // Called when the game starts or when spawned
@@ -31,7 +35,7 @@ void ACPP_PlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
+	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 }
 
 // Called every frame
@@ -44,6 +48,21 @@ void ACPP_PlayerPawn::Tick(float DeltaTime)
 	{
 		FVector NewLocation = GetActorLocation() + (Velocity * SpeedScale * DeltaTime);
 		SetActorLocation(NewLocation);
+	}
+	
+	// Move the cursor
+	FHitResult Hit;
+	bool HitResult = false;
+
+	//HitResult = GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_WorldStatic), true, Hit);
+
+	if (HitResult)
+	{
+		// Update cursor
+		FVector CursorFV = Hit.ImpactNormal;
+		FRotator CursorR = CursorFV.Rotation();
+		CursorToWorld->SetWorldLocation(Hit.Location);
+		CursorToWorld->SetWorldRotation(CursorR);
 	}
 }
 
