@@ -15,7 +15,7 @@ ACPP_PlayerPawn::ACPP_PlayerPawn()
 	PrimaryActorTick.bCanEverTick = true;
 
 	//Create a crosshair in the world
-	CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
+	/*CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
 	CursorToWorld->SetupAttachment(RootComponent);
 	static ConstructorHelpers::FObjectFinder<UMaterial> DecalMaterialAsset(TEXT("Material'/Game/Materials/M_Cursor_Decal.M_Cursor_Decal'"));
 	if (DecalMaterialAsset.Succeeded())
@@ -23,7 +23,7 @@ ACPP_PlayerPawn::ACPP_PlayerPawn()
 		CursorToWorld->SetDecalMaterial(DecalMaterialAsset.Object);
 	}
 	CursorToWorld->DecalSize = FVector(16.0f, 32.0f, 32.0f);
-	CursorToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
+	CursorToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());*/
 }
 
 // Called when the game starts or when spawned
