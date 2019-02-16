@@ -23,13 +23,6 @@ void ACPP_PlayerChar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//Move the character according to MoveForward and MoveRight
-	if (!Velocity.IsZero())
-	{
-		FVector NewLocation = GetActorLocation() + GetActorForwardVector()*(SpeedScale * DeltaTime);
-		SetActorLocation(NewLocation);
-	}
-
 }
 
 // Called to bind functionality to input
@@ -44,10 +37,29 @@ void ACPP_PlayerChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void ACPP_PlayerChar::MoveForward(float AxisValue)
 {
-	Velocity.X = FMath::Clamp(AxisValue, -1.0f, 1.0f) * SpeedScale;
+	if ((Controller != NULL) && (AxisValue != 0.0f))
+	{
+		// find out which way is forward
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		// get forward vector
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		AddMovementInput(Direction, AxisValue);
+	}
 }
 
 void ACPP_PlayerChar::MoveRight(float AxisValue)
 {
-	Velocity.Y = FMath::Clamp(AxisValue, -1.0f, 1.0f) * SpeedScale;
+	if ((Controller != NULL) && (AxisValue != 0.0f))
+	{
+		// find out which way is right
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		// get right vector 
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		// add movement in that direction
+		AddMovementInput(Direction, AxisValue);
+	}
 }
