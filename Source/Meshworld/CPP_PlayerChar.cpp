@@ -23,6 +23,7 @@ ACPP_PlayerChar::ACPP_PlayerChar()
 	//Create a crosshair in the world
 	CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
 	CursorToWorld->SetupAttachment(RootComponent);
+
 	static ConstructorHelpers::FObjectFinder<UMaterial> DecalMaterialAsset(TEXT("Material'/Game/M_Cursor_Decal.M_Cursor_Decal'"));
 	if (DecalMaterialAsset.Succeeded())
 	{
@@ -37,40 +38,38 @@ ACPP_PlayerChar::ACPP_PlayerChar()
 void ACPP_PlayerChar::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	//Show system cursor. Should probably be false
+	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 }
 
 // Called every frame
 void ACPP_PlayerChar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	FHitResult Hit;
+	bool HitResult = false;
 
-	/*if (CursorToWorld != nullptr)
+	HitResult = GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_WorldStatic), true, Hit);
+
+	if (HitResult)
 	{
-		if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
-		{
-			if (UWorld* World = GetWorld())
-			{
-				FHitResult HitResult;
-				FCollisionQueryParams Params(NAME_None, FCollisionQueryParams::GetUnknownStatId());
-				FVector StartLocation = TopDownCameraComponent->GetComponentLocation();
-				FVector EndLocation = TopDownCameraComponent->GetComponentRotation().Vector() * 2000.0f;
-				Params.AddIgnoredActor(this);
-				World->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, Params);
-				FQuat SurfaceRotation = HitResult.ImpactNormal.ToOrientationRotator().Quaternion();
-				CursorToWorld->SetWorldLocationAndRotation(HitResult.Location, SurfaceRotation);
-			}
-		}
-		else if (APlayerController* PC = Cast<APlayerController>(GetController()))
-		{
-			FHitResult TraceHitResult;
-			PC->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult);
-			FVector CursorFV = TraceHitResult.ImpactNormal;
-			FRotator CursorR = CursorFV.Rotation();
-			CursorToWorld->SetWorldLocation(TraceHitResult.Location);
-			CursorToWorld->SetWorldRotation(CursorR);
-		}
-	}*/
+		///Updates cursor
+		FVector CursorFV = Hit.ImpactNormal;
+		FRotator CursorR = CursorFV.Rotation();
+		CursorToWorld->SetWorldLocation(Hit.Location);
+		CursorToWorld->SetWorldRotation(CursorR);
+
+		///Set the new direction of the pawn:
+		FVector CursorLocation = Hit.Location;
+		UE_LOG(LogTemp, Warning, TEXT("Hit location %s!"), *Hit.Location.ToString());
+		///Set Z to a little above ground
+		FVector TempLocation = FVector(CursorLocation.X, CursorLocation.Y, 30.f);
+
+		
+	}
+	//RootComponent->SetWorldRotation(FRotator(GetControlRotation().Pitch, CursorR.Yaw, GetControlRotation().Roll));
 }
 
 // Called to bind functionality to input
@@ -114,3 +113,4 @@ void ACPP_PlayerChar::MoveRight(float AxisValue)
 		AddMovementInput(Direction, AxisValue);
 	}
 }
+
