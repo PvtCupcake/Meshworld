@@ -34,10 +34,14 @@ void ACPP_EnemyTurret::Tick(float DeltaTime)
 	MoveDirection.Normalize();
 	SetActorRotation(MoveDirection.Rotation());
 
-	Shooting();
+	CurrentShootDelay -= DeltaTime;
 
-	Time
+	if (CurrentShootDelay < 0.f)
+	{
+		Shooting();
 
+		CurrentShootDelay = FMath::FRandRange(ShootDelayMin, ShootDelayMax);
+	}
 }
 
 // Called to bind functionality to input
@@ -52,8 +56,8 @@ void ACPP_EnemyTurret::Shooting()
 	UWorld* World = GetWorld();
 	if (World)
 	{
-		FVector Location = GetActorLocation();
-		World->SpawnActor<ACPP_EvilProjectile>(BulletBlueprint, Location, FRotator::ZeroRotator);
+		FVector Location = 	GetActorLocation();
+		World->SpawnActor<ACPP_EvilProjectile>(BulletBlueprint, Location, GetActorRotation());
 	}
 
 }

@@ -23,6 +23,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	float bulletSpeed = 500;
+	float bulletSpeed = 1000;
 
 };

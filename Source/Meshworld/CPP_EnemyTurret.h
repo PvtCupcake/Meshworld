@@ -36,4 +36,12 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		UShapeComponent* RootSphere = nullptr;
+
+	UPROPERTY(EditAnywhere)
+		float ShootDelayMax = 2.f;
+
+	UPROPERTY(EditAnywhere)
+		float ShootDelayMin = 1.f;
+
+	float CurrentShootDelay = 0.f;
 };
