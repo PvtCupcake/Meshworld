@@ -7,9 +7,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
-#include "Camera/CameraComponent.h"
-#include "GameFramework/SpringArmComponent.h"
+#include "Engine/Classes/GameFramework/PlayerController.h"
 
 // Sets default values
 ACPP_PlayerChar::ACPP_PlayerChar()
@@ -67,9 +65,9 @@ void ACPP_PlayerChar::Tick(float DeltaTime)
 		///Set Z to a little above ground
 		FVector TempLocation = FVector(CursorLocation.X, CursorLocation.Y, 30.f);
 
+	
 		
 	}
-	//RootComponent->SetWorldRotation(FRotator(GetControlRotation().Pitch, CursorR.Yaw, GetControlRotation().Roll));
 }
 
 // Called to bind functionality to input
@@ -87,15 +85,14 @@ void ACPP_PlayerChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void ACPP_PlayerChar::MoveForward(float AxisValue)
 {
-	if ((Controller != NULL) && (AxisValue != 0.0f))
-	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+	FVector cameraForward = GetWorld()->GetFirstPlayerController()->PlayerCameraManager->GetCameraRotation().Vector();
 
-		// get forward vector
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, AxisValue);
+	cameraForward.Z = 0.0f;
+	cameraForward.Normalize();
+
+	if (AxisValue != 0.0f)
+	{
+		AddMovementInput(cameraForward, AxisValue);
 	}
 }
 
