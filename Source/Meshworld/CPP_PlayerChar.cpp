@@ -4,6 +4,7 @@
 #include "Components/InputComponent.h"
 #include "Components/Decalcomponent.h"
 #include "Components/BoxComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
@@ -15,12 +16,9 @@ ACPP_PlayerChar::ACPP_PlayerChar()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//Create a rootcomponent we can attach things to
-	RootComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("RootComponent"));
-
 	//Create a crosshair in the world
 	CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
-	CursorToWorld->SetupAttachment(RootComponent);
+	CursorToWorld->SetupAttachment(GetCapsuleComponent());
 
 	static ConstructorHelpers::FObjectFinder<UMaterial> DecalMaterialAsset(TEXT("Material'/Game/M_Cursor_Decal.M_Cursor_Decal'"));
 	if (DecalMaterialAsset.Succeeded())
@@ -85,29 +83,18 @@ void ACPP_PlayerChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void ACPP_PlayerChar::MoveForward(float AxisValue)
 {
-	FVector cameraForward = GetWorld()->GetFirstPlayerController()->PlayerCameraManager->GetCameraRotation().Vector();
-
-	cameraForward.Z = 0.0f;
-	cameraForward.Normalize();
-
 	if (AxisValue != 0.0f)
 	{
-		AddMovementInput(cameraForward, AxisValue);
+		AddMovementInput(FVector(1.0f, 0.0f, 0.0f), AxisValue);
 	}
 }
 
 void ACPP_PlayerChar::MoveRight(float AxisValue)
 {
-	if ((Controller != NULL) && (AxisValue != 0.0f))
+	if (AxisValue != 0.0f)
 	{
-		// find out which way is right
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-		// get right vector 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
-		AddMovementInput(Direction, AxisValue);
+		AddMovementInput(FVector(0.0f, 1.0f, 0.0f), AxisValue);
 	}
 }
 
