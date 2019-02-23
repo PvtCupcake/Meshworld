@@ -34,7 +34,6 @@ void ACPP_EnemyChaser::Tick(float DeltaTime)
 	FVector NewLocation = GetActorLocation();
 	NewLocation += (MoveDirection * Speed * DeltaTime);
 	SetActorLocation(NewLocation);
-
 }
 
 // Called to bind functionality to input
@@ -43,4 +42,3 @@ void ACPP_EnemyChaser::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
-

@@ -28,6 +28,7 @@ public:
 	//Input funtions
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
+	//void Restart();
 
 	/** Returns CursorToWorld subobject **/
 	FORCEINLINE class UDecalComponent* GetCursorToWorld() { return CursorToWorld; }
@@ -36,7 +37,17 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Character functionality")
 	USceneComponent* OurVisibleComponent;
 
+	UPROPERTY(EditAnywhere, Category = "Character Stats")
+		float Health = 100;
+
 	//Decal on cursorlocation
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 		UDecalComponent* CursorToWorld;
+
+	UFUNCTION()
+		void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+
+	//Collision shape
+	UShapeComponent* CollisionBox = nullptr;
+	UShapeComponent* SwordCollision = nullptr;
 };

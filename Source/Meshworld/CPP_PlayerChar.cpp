@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "CPP_PlayerChar.h"
+#include "CPP_EvilProjectile.h"
+
 #include "Components/InputComponent.h"
 #include "Components/Decalcomponent.h"
 #include "Components/BoxComponent.h"
@@ -9,6 +11,7 @@
 #include "Materials/Material.h"
 #include "Engine/World.h"
 #include "Engine/Classes/GameFramework/PlayerController.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ACPP_PlayerChar::ACPP_PlayerChar()
@@ -37,6 +40,15 @@ void ACPP_PlayerChar::BeginPlay()
 
 	//Show system cursor. Should probably be false
 	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
+
+	CollisionBox = this->FindComponentByClass<UCapsuleComponent>();
+
+	if (CollisionBox)
+	{
+		CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ACPP_PlayerChar::OnOverlap);
+	}
+
+	SwordCollision = this->FindComponentByClass<UBoxComponent>();
 }
 
 // Called every frame
@@ -57,9 +69,9 @@ void ACPP_PlayerChar::Tick(float DeltaTime)
 		CursorToWorld->SetWorldLocation(Hit.Location);
 		CursorToWorld->SetWorldRotation(CursorR);
 
-		///Set the new direction of the pawn:
+		///Set the new direction of the character:
 		FVector CursorLocation = Hit.Location;
-		UE_LOG(LogTemp, Warning, TEXT("Hit location %s!"), *Hit.Location.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Hit location %s!"), *Hit.Location.ToString());
 		///Set Z to a little above ground
 		FVector TempLocation = FVector(CursorLocation.X, CursorLocation.Y, 30.f);
 
@@ -98,3 +110,25 @@ void ACPP_PlayerChar::MoveRight(float AxisValue)
 	}
 }
 
+void ACPP_PlayerChar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, UPrimitiveComponent *OtherComponent,
+								int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
+{
+	if (OtherActor->IsA(ACPP_EvilProjectile::StaticClass()))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player Hit"))
+			Health = Health - 50;
+			OtherActor->Destroy();
+	}
+	/*if (OverlappedComponent->IsA(SwordCollision())	Work in progress
+	{
+
+	}*/
+}
+
+/*void ACPP_PlayerChar::Restart()						Player becomes imobile if uncommented
+{
+	if (Health <= 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player Dead"))
+	}
+}*/

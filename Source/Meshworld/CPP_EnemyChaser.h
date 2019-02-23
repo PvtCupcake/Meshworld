@@ -33,5 +33,8 @@ private:
 		float Speed = 200.f;
 
 	UPROPERTY(EditAnywhere)
+		float Health = 100.f;
+
+	UPROPERTY(EditAnywhere)
 		UShapeComponent* RootBox = nullptr;
 };
