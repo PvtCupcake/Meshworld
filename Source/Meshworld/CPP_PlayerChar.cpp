@@ -2,6 +2,7 @@
 
 #include "CPP_PlayerChar.h"
 #include "CPP_EvilProjectile.h"
+#include "CPP_EnemyChaser.h"
 
 #include "Components/InputComponent.h"
 #include "Components/Decalcomponent.h"
@@ -118,6 +119,11 @@ void ACPP_PlayerChar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 		UE_LOG(LogTemp, Warning, TEXT("Player Hit"))
 			Health = Health - 50;
 			OtherActor->Destroy();
+	}
+	if (OtherActor->IsA(ACPP_EnemyChaser::StaticClass()))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player Hit by chaser"))
+			Health = Health - 25;
 	}
 	/*if (OverlappedComponent->IsA(SwordCollision())	Work in progress
 	{
