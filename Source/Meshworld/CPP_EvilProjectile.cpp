@@ -21,10 +21,5 @@ void ACPP_EvilProjectile::BeginPlay()
 void ACPP_EvilProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	FVector NewLocation = GetActorLocation(); //Moves the bullet
-	NewLocation += GetActorForwardVector() * bulletSpeed * DeltaTime;
-	SetActorLocation(NewLocation);
-
 }
 
