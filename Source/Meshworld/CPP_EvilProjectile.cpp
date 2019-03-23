@@ -14,7 +14,6 @@ ACPP_EvilProjectile::ACPP_EvilProjectile()
 void ACPP_EvilProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
