@@ -33,12 +33,14 @@ public:
 	/** Returns CursorToWorld subobject **/
 	FORCEINLINE class UDecalComponent* GetCursorToWorld() { return CursorToWorld; }
 
+	UPROPERTY(BlueprintReadWrite, Category = "Character Stats")
+		float Health = 100;
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Character functionality")
 	USceneComponent* OurVisibleComponent;
 
-	UPROPERTY(EditAnywhere, Category = "Character Stats")
-		float Health = 100;
+	
 
 	//Decal on cursorlocation
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
