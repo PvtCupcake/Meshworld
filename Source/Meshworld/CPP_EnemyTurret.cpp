@@ -56,8 +56,7 @@ void ACPP_EnemyTurret::Shooting()
 	UWorld* World = GetWorld();
 	if (World)
 	{
-		FVector Location = 	GetActorLocation();
-		World->SpawnActor<ACPP_EvilProjectile>(BulletBlueprint, Location, GetActorRotation());
+		World->SpawnActor<ACPP_EvilProjectile>(BulletBlueprint, GetActorLocation(), GetActorRotation());
 	}
 
 }
