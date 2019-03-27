@@ -30,9 +30,9 @@ void ACPP_EnemyTurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	MoveDirection = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() - GetActorLocation();
-	MoveDirection.Normalize();
-	SetActorRotation(MoveDirection.Rotation());
+	//MoveDirection = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() - GetActorLocation();
+	//MoveDirection.Normalize();
+	//SetActorRotation(MoveDirection.Rotation());
 
 	CurrentShootDelay -= DeltaTime;
 
