@@ -27,8 +27,8 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	/*UFUNCTION(BlueprintCallable, Category = "OpenDoor")
-		void OpentheDoor();*/
+	UFUNCTION(BlueprintCallable, Category = "OpenDoor")
+		void OpentheDoor();
 
 	UPROPERTY(EditAnywhere)
 		float OpenDoorMovement = 500.0f;

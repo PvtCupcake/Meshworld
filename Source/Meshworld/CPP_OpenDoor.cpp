@@ -2,6 +2,7 @@
 
 #include "CPP_OpenDoor.h"
 #include "CPP_PlayerChar.h"
+#include "Engine/World.h"
 
 // Sets default values for this component's properties
 UCPP_OpenDoor::UCPP_OpenDoor()
@@ -18,6 +19,8 @@ UCPP_OpenDoor::UCPP_OpenDoor()
 void UCPP_OpenDoor::BeginPlay()
 {
 	Super::BeginPlay(); 
+
+	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 
@@ -26,16 +29,18 @@ void UCPP_OpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	/*if (PressurePlate->IsOverlappingActor(ActorThatOpens))
+	if (PressurePlate->IsOverlappingActor(ActorThatOpens))
 	{
-		OpentheDoor;
-	}*/
+		OpentheDoor();
+	}
 	// ...
 }
 
-//void UCPP_OpenDoor::OpentheDoor()
-//{
-//	FVector Location = GetOwner()->GetActorLocation;
-//
-//	GetOwner()->SetActorLocation(Location + (0.0f, 0.0f, 200.0f));
-//}
+void UCPP_OpenDoor::OpentheDoor()
+{
+	AActor* Owner = GetOwner();
+
+	FRotator NewRotation = FRotator(0.f, 90.f, 0.f);
+
+	Owner->AddActorLocalRotation(NewRotation);
+}
