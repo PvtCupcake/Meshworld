@@ -29,25 +29,7 @@ void ACPP_EnemyTurret::BeginPlay()
 void ACPP_EnemyTurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	MoveDirection = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() - GetActorLocation();
-	MoveDirection.Normalize();
-	SetActorRotation(MoveDirection.Rotation());
-	//while (GetActorLocation()-500 < GetPlayerCharacterLocation())
-	//{ 
-		MoveDirection = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() - GetActorLocation();
-		MoveDirection.Normalize();
-		SetActorRotation(MoveDirection.Rotation());
-		CurrentShootDelay -= DeltaTime;
-
-		if (CurrentShootDelay < 0.f)
-		{
-			Shooting();
-
-			CurrentShootDelay = FMath::FRandRange(ShootDelayMin, ShootDelayMax);
-		}
-	//}
-
+	
 }
 
 // Called to bind functionality to input
@@ -66,4 +48,24 @@ void ACPP_EnemyTurret::Shooting()
 	}
 
 }
+
+void ACPP_EnemyTurret::Turning()
+{
+	MoveDirection = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() - GetActorLocation();
+	MoveDirection.Normalize();
+	SetActorRotation(MoveDirection.Rotation());
+}
+
+/*MoveDirection = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() - GetActorLocation();
+	MoveDirection.Normalize();
+	SetActorRotation(MoveDirection.Rotation());
+
+	CurrentShootDelay -= DeltaTime;
+
+	if (CurrentShootDelay < 0.f)
+	{
+		Shooting();
+
+		CurrentShootDelay = FMath::FRandRange(ShootDelayMin, ShootDelayMax);
+	}*/
 
