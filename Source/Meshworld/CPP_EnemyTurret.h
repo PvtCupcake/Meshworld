@@ -33,6 +33,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Shoot")
 		void Shooting();
 
+	UFUNCTION(BlueprintCallable, Category = "Turning")
+		void Turning();
+
 private:
 
 	UPROPERTY(EditAnywhere)
