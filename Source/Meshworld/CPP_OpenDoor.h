@@ -30,6 +30,9 @@ private:
 	UFUNCTION(BlueprintCallable, Category = "OpenDoor")
 		void OpentheDoor();
 
+	UFUNCTION()
+		void ActivatePressureplate();
+
 	UPROPERTY(EditAnywhere)
 		float OpenDoorMovement = 500.0f;
 
@@ -38,4 +41,9 @@ private:
 		
 	UPROPERTY(EditAnywhere)
 		AActor* ActorThatOpens;
+
+	UPROPERTY(EditAnywhere)
+		float DoorTimer = 3.f;
+
+	FTimerHandle pressureplateTimerHandle;
 };
