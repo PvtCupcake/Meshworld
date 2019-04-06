@@ -7,11 +7,7 @@
 // Sets default values for this component's properties
 UCPP_OpenDoor::UCPP_OpenDoor()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -33,14 +29,28 @@ void UCPP_OpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	{
 		OpentheDoor();
 	}
-	// ...
 }
 
 void UCPP_OpenDoor::OpentheDoor()
 {
 	AActor* Owner = GetOwner();
 
+	FRotator NewRotation = FRotator(0.f, -90.f, 0.f);
+
+	Owner->AddActorLocalRotation(NewRotation);
+
+	PressurePlate->SetActorEnableCollision(false);
+
+	GetWorld()->GetTimerManager().SetTimer(pressureplateTimerHandle, this, &UCPP_OpenDoor::ActivatePressureplate, DoorTimer, false);
+}
+
+void UCPP_OpenDoor::ActivatePressureplate()
+{
+	AActor* Owner = GetOwner();
+
 	FRotator NewRotation = FRotator(0.f, 90.f, 0.f);
 
 	Owner->AddActorLocalRotation(NewRotation);
+
+	PressurePlate->SetActorEnableCollision(true);
 }
