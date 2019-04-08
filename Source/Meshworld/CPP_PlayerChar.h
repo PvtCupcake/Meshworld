@@ -26,8 +26,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	//Input funtions
-	void MoveForward(float AxisValue);
-	void MoveRight(float AxisValue);
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+		void MoveForward(float AxisValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+		void MoveRight(float AxisValue);
 	//void Restart();
 
 	/** Returns CursorToWorld subobject **/
@@ -40,7 +43,8 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Character functionality")
 	USceneComponent* OurVisibleComponent;
 
-	
+	UPROPERTY(BlueprintReadOnly, Category = "Character functionality", meta = (AllowPrivateAccess = "true"))
+		float AxisValue;
 
 	//Decal on cursorlocation
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
