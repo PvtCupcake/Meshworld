@@ -101,11 +101,11 @@ void ACPP_PlayerChar::MoveForward(float AxisValue)
 {
 	if (AxisValue != 0.0f)
 	{
-		const FRotator Rotation = GetActorRotation();
+		/*const FRotator Rotation = GetActorRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, AxisValue);
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);*/
+		AddMovementInput(FVector(1.0f, 0.0f, 0.0f), AxisValue);
 	}
 }
 
@@ -113,11 +113,11 @@ void ACPP_PlayerChar::MoveRight(float AxisValue)
 {
 	if (AxisValue != 0.0f)
 	{
-		const FRotator Rotation = GetActorRotation();
+		/*const FRotator Rotation = GetActorRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 		
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-		AddMovementInput(Direction, AxisValue);
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);*/
+		AddMovementInput(FVector(0.0f, 1.0f, 0.0f), AxisValue);
 	}
 }
 
